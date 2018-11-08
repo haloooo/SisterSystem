@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>NG List</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.7 -->
+    <link rel="stylesheet" href="../static/sources/css/bootstrap/bootstrap.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="../static/sources/css/font-awesome/css/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="../static/sources/css/Ionicons/ionicons.min.css">
+    <!-- basictable -->
+    <link rel="stylesheet" href="../static/sources/css/basictable/basictable.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="../static/sources/css/dist/AdminLTE.css">
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+         folder instead of downloading all of them to reduce the load. -->
+    <link rel="stylesheet" href="../static/sources/css/dist/_all-skins.css">
+    <!-- toastr -->
+    <link rel="stylesheet" href="../static/sources/css/toastr/toastr.css">
+    <!-- style -->
+    <link rel="stylesheet" href="../static/sources/css/basictable/style.css">
+    <style>
+        .spec tr td{
+            height: 40px;
+            padding: 0px;
+        }
+    </style>
+</head>
+<body class="hold-transition skin-blue sidebar-mini" ng-app="AppConfig" >
+<div class="wrapper">
+    <header class="main-header">
+        <!-- Logo -->
+        <div class="logo">
+            <!-- mini logo for sidebar mini 50x50 pixels -->
+            <span class="logo-mini">Nidec</span>
+            <!-- logo for regular state and mobile devices -->
+            <img src="../static/sources/images/nidec.png">
+        </div>
+        <!-- Header Navbar: style can be found in header.less -->
+        <nav class="navbar navbar-static-top">
+            <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+                <span class="sr-only">Toggle navigation</span>
+            </a>
+            <!-- Sidebar toggle button-->
+            <div class="navbar-title" style="width: 99%; position: absolute;z-index: -100">
+                <div align="center" style="vertical-align: center" ng-cloak>
+                    <span style="font-size: 30px;color: #ffffff" id="display_title">Sister System</span>
+                </div>
+            </div>
+            <!-- Sidebar toggle button-->
+            {% verbatim %}
+            <div class="navbar-custom-menu">
+                <ul class="nav navbar-nav">
+                    <!-- Control Sidebar Toggle Button -->
+                    <li class="dropdown user user-menu">
+                        <a style="cursor: pointer" ng-click="showMenu()">
+                            <i class="fa fa-user"></i>
+                            <span class="hidden-xs" ng-cloak>{{ user_name }}</span>
+                        </a>
+                        <ul class="dropdown-menu" style="width: 80px; text-align: left" id="show_menu">
+                            <li class="user-footer">
+                                <a ng-click="showPassword()" id="logout" class="btn btn-default">
+                                    修改密码
+                                </a>
+                                <a ng-click="logout()" id="logout" class="btn btn-default" style="margin-top: 10px">
+                                    注销
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            {% endverbatim %}
+        </nav>
+    </header>
+    <!-- Left side column. contains the logo and sidebar -->
+    <aside class="main-sidebar">
+        <!-- sidebar: style can be found in sidebar.less -->
+        <section class="sidebar">
+            <!-- sidebar menu: : style can be found in sidebar.less -->
+            <ul class="sidebar-menu" data-widget="tree">
+                <li><a href="go_homePage"><i class="fa fa-home"></i> <span>HomePage</span></a></li>
+                <li id="go_config"  class="active"><a href="go_config"><i class="fa fa-bookmark"></i> <span>NG List</span></a></li>
+                <li id="go_setting" style="display: none"><a href="go_setting"><i class="fa fa-cog"></i> <span>Config</span></a></li>
+                <li id="go_user" style="display: none"><a href="go_user"><i class="fa fa-user"></i> <span>User</span></a></li>
+            </ul>
+        </section>
+        <!-- /.sidebar -->
+    </aside>
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Main content -->
+        <section class="content">
+
+            <div id="app">
+                <table id="table">
+                    <thead>
+                    <tr>
+                        <th class="col-lg-1" style="text-align: center">
+                            <span style="font-size: 15px">NO</span>
+                        </th>
+                        <th class="col-lg-2" style="text-align: center">
+                            <span style="font-size: 15px">JIG Serial</span>
+                        </th>
+                        <th class="col-lg-2" style="text-align: center">
+                            <span style="font-size: 15px">データ分類キー</span>
+                        </th>
+                        <th class="col-lg-2" style="text-align: center">
+                            <span style="font-size: 15px">LINE番号</span>
+                        </th>
+                        <th class="col-lg-3" style="text-align: center">
+                            <span style="font-size: 15px">作成日時</span>
+                        </th>
+                        <th class="col-lg-3" style="text-align: center">
+                            <span style="font-size: 15px">更新日時</span>
+                        </th>
+                        <th class="col-lg-3" style="text-align: center">
+                            <span style="font-size: 15px">STATUS</span>
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% verbatim %}
+                    <tr ng-repeat="item in dataList">
+                        <td style="text-align: center">
+                            <span style="font-size: 15px" ng-bind="$index + 1"></span>
+                        </td>
+                        <td style="text-align: center">
+                            <span style="font-size: 15px" ng-bind="item.serial_cd"></span>
+                        </td>
+                        <td style="text-align: center">
+                            <span style="font-size: 15px" ng-bind="item.datatype_id"></span>
+                        </td>
+                        <td style="text-align: center">
+                            <span style="font-size: 15px" ng-bind="item.line_cd"></span>
+                        </td>
+                        <td style="text-align: center">
+                            <span style="font-size: 15px" ng-bind="item.create_at"></span>
+                        </td>
+                        <td style="text-align: center">
+                            <span style="font-size: 15px" ng-bind="item.updated_at"></span>
+                        </td>
+                        <td style="text-align: center">
+                            <span style="font-size: 15px" ng-bind="item.state"></span>
+                        </td>
+                    </tr>
+                    {% endverbatim %}
+                    </tbody>
+                </table>
+            </div>
+        </section>
+        <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+</div>
+
+
+<!--changePwd model-->
+<div class="modal fade" id="passwordModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header header_height" style="background-color: #3C8DBC">
+                <button type="button" class="close text-color" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel"><span style="color: #FFFFFF">修改密码</span></h4>
+            </div>
+            <div class="modal-body" id="passwordNum">
+                <div class="row">
+                    <div class="col-md-12">
+                        <form id="form" class="form-horizontal form" role="form" method="post">
+                            <table class="table table-bordered">
+                                <tbody>
+                                <tr>
+                                    <th width="20%">*原密码：</th>
+                                    <td width="80%">
+                                        <input type="password" style="width: 455px;height: 30px" class="form-control"  id="oldpassword">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th width="20%">*新密码：</th>
+                                    <td width="80%">
+                                        <input type="password" style="width: 455px;height: 30px" class="form-control" id="newpassword">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th width="20%">*重复新密码：</th>
+                                    <td width="80%">
+                                        <input type="password" style="width: 455px;height: 30px" class="form-control" id="r_newpassword">
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default"
+                        data-dismiss="modal">关闭
+                </button>
+                <button type="button" class="btn btn-primary" ng-click="savePassword()">
+                    保存
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="loading" hidden="hidden" class="loading">Loading pages...</div>
+<!-- ./wrapper -->
+<!-- jQuery 3 -->
+<script src="../static/sources/js/jquery.min.js"></script>
+<!-- Bootstrap 3.3.7 -->
+<script src="../static/sources/js/bootstrap.js"></script>
+<!-- AdminLTE App -->
+<script src="../static/sources/js/adminlte.js"></script>
+<!-- Bootstarp table -->
+<script src="../static/sources/js/bootstrap-table.js"></script>
+<!-- AngularJS -->
+<script src="../static/sources/js/angular.js"></script>
+<!-- Toastr -->
+<script src="../static/sources/js/toastr.js"></script>
+<!-- BasicTable -->
+<script src="../static/sources/js/jquery.basictable.js"></script>
+<!-- datatables -->
+<script src="../static/sources/js/datatables.js"></script>
+{#<!-- Setting.js -->#}
+<script src="../static/js/config.js"></script>
+<script type="text/javascript">
+    toastr.options.positionClass = 'toast-top-center';
+
+</script>
+</body>
+</html>
